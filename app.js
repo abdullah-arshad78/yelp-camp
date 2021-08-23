@@ -44,17 +44,18 @@ app.set("views",path.join(__dirname,"views"))
 app.use(express.urlencoded({extended:true}))
 app.use(methodOverride("_method"))
 app.use(express.static(path.join(__dirname,"public")))
+const secret = process.env.SECRET || 'thisshouldbeabettersecret';
 
 const store = new MongoDBStore({
     url:dbUrl,
-    secret,
+    secret:secret,
     touchAfter:24*3600
 })
 store.on("error",function(e){
     console.log("session store error",e)
 })
 
-const secret = process.env.SECRET || 'thisshouldbeabettersecret';
+
 const sessionConfig = {
     store,
     name:"session",
@@ -164,8 +165,8 @@ app.use((err,req,res,next)=>{
     
 })
 
+const port = process.env.PORT || 3000
 
-
-app.listen(3000,()=>{
-    console.log("Serving on port 3000")
+app.listen(port,()=>{
+    console.log(`Serving on port ${port}`)
 })
