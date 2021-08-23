@@ -47,7 +47,7 @@ app.use(express.static(path.join(__dirname,"public")))
 
 const store = new MongoDBStore({
     url:dbUrl,
-    secret:"thisshouldbeasecret",
+    secret,
     touchAfter:24*3600
 })
 store.on("error",function(e){
